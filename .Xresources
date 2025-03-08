@@ -1,12 +1,10 @@
-!XTerm.vt100.font: xft:Iosevka Term SS04:style=Regular:size=12
-!XTerm*selectToClipboard: true
-
 Xft*antialias:                  true
+Xft*hinting:                    true
 Xcursor.size:                   0
 
-urxvt.font:                     xft:iosevkass14:style=Regular :size=17:antialias=true:hinting=true
-urxvt.boldFont:                 xft:iosevkass14:style=SemiBold:size=17:antialias=true:hinting=true
-urxvt.italicFont:               xft:iosevkass14:style=Italic  :size=17:antialias=true:hinting=true
+urxvt.font:                     xft:iosevkass14:style=regular :size=17
+urxvt.boldFont:                 xft:iosevkass14:style=semibold:size=17
+urxvt.italicFont:               xft:iosevkass14:style=italic  :size=17
 urxvt.foreground:               #edf6f9
 urxvt.background:               #040404
 urxvt.geometry:                 400x400
@@ -28,8 +26,5 @@ urxvt.keysym.C-minus:           font-size:decrease
 urxvt.keysym.C-0:               font-size:reset
 urxvt.keysym.C-slash:           font-size:show
 !urxvt.font-size.step:           2
-!urxvt.keysym.C-a:               keyboard-select:select-activate
-!urxvt.keysym.C-s:               keyboard-select:select-search
-
 !urxvt.cursorBlink:             true
 !urxvt.cursorColor:             #ffee32

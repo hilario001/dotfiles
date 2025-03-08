@@ -8,7 +8,7 @@ set incsearch
 set cindent
 "set number rnu
 set termguicolors bg=dark
-set tabstop=4 softtabstop=4 shiftwidth=4
+set tabstop=8 softtabstop=8 shiftwidth=8
 "set smartindent autoindent
 set expandtab
 "set makeprg=gcc\ -o\ exe\ %\ -lm
@@ -35,12 +35,7 @@ autocmd FileType html,css setlocal tabstop=2 softtabstop=2 shiftwidth=2
 nnoremap <leader><cr> :w<cr>:so ~/dotfiles/.config/vim/vimrc<cr>
 nnoremap <leader>v :e ~/dotfiles/.config/vim/vimrc<cr>
 
-nnoremap <leader>q :q!<cr>
-nnoremap <leader>w :w<cr>
-nnoremap <leader>W :wq<cr>
-
-nnoremap <leader>; q:
-nnoremap <leader>g :vimgrep   %<left><left><left>
+nnoremap <leader>g :vimgrep 
 
 " TODO: learn how to compile vim with clipboard feature
 nnoremap <leader>Y mmggVG:w ! xclip -sel clip<cr><cr>`mzz

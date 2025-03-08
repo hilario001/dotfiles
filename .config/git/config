@@ -1,14 +1,14 @@
-[credential "git@github.com"]
-	helper = 
-	helper = !/usr/bin/gh auth git-credential
-[credential "git@gist.github.com"]
-	helper = 
-	helper = !/usr/bin/gh auth git-credential
 [voizd1]
 	email = voizd00@gmail.com
 [user]
 	email = voizd00@gmail.com
 	name = voizd
+[credential "https://voizd@github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://voizd@gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential

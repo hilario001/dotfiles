@@ -88,8 +88,8 @@ alias csi="chicken-csi -q"
 alias csc="chicken-csc"
 
 alias v="vim ~/.config/vim/vimrc" 
-alias z="vim ~/dotfiles/.config/zsh/.zshrc"
-alias zr="source ~/dotfiles/.config/zsh/.zshrc"
+alias z="vim ~/.config/zsh/.zshrc"
+alias zr="source ~/.config/zsh/.zshrc"
 alias i3="vim ~/.config/i3/config"
 
 alias pdfsicp="zathura ~/cs/sicp/pdf/sicp.pdf &"

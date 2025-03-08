@@ -75,9 +75,6 @@ nnoremap <c-f> <c-f>zz
 nnoremap <c-b> <c-b>zz
 nnoremap G GGzz
 
-vnoremap <c-j> :m '>+1<cr>gv=gv
-vnoremap <c-k> :m '<-2<cr>gv=gv
-
 " TODO: make a function to group html related abbreviations/maps
 "ia html <esc>:-1r ~/dotfiles/.config/vim/.index.html<cr>/body<cr>o
 
@@ -122,6 +119,3 @@ vnoremap <c-k> :m '<-2<cr>gv=gv
 "endfunction
 "
 "nnoremap <S-h> :call ToggleHiddenAll()<cr>
-"
-" open terminal in fullscreen
-" :tab term or :term ++curwin

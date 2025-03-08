@@ -1,0 +1,6 @@
+[Unit]
+Description=Download videos from yt everyday
+
+[Service]
+ExecStart=%h/.local/bin/yt.sh
+

@@ -1,0 +1,66 @@
+# the language used when one is not manually specified
+default_language = "english200"
+
+[theme]
+# default style (this includes empty cells)
+default = "none"
+
+# title text styling
+title = "white;bold"
+
+## test styles ##
+
+# input box border
+input_border = "333333"
+# prompt box border
+prompt_border = "333333"
+
+# border type
+border_type = "rounded"
+
+# correctly typed words
+prompt_correct = "5D5574"
+#prompt_correct = "CCEA8D"
+# incorrectly typed words
+prompt_incorrect = "BF3A47"
+# untyped words
+prompt_untyped = "gray"
+
+# correctly typed letters in current word
+prompt_current_correct = "5D5574;bold"
+#prompt_current_correct = "CCEA8D;bold"
+# incorrectly typed letters in current word
+prompt_current_incorrect = "BF3A47;bold"
+# untyped letters in current word
+#prompt_current_untyped = "darkgray;bold"
+prompt_current_untyped = "737373;bold"
+
+# cursor character
+prompt_cursor = "white;bold"
+
+## results styles ##
+
+# overview text
+results_overview = "CCEA8D;rapid_blink"
+# overview border
+results_overview_border = "333333"
+
+# worst keys text
+results_worst_keys = "BF3A47;bold"
+# worst keys border
+results_worst_keys_border = "333333"
+
+# results chart default (includes plotted data)
+results_chart = "5D5574"
+# results chart x-axis label
+results_chart_x = "5D5574"
+# results chart y-axis label
+results_chart_y = "gray;italic"
+
+# restart/quit prompt in results ui
+results_restart_prompt = "gray;italic"
+
+# Colors
+#CCEA8D - light gold
+#BF3A47 - light red
+#333333 - gray

@@ -1,0 +1,6 @@
+[Unit]
+Description=Battery daemon to check battery capacity
+
+[Service]
+ExecStart=%h/.local/bin/batt.sh
+Environment=DISPLAY=:0

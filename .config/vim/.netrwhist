@@ -1,0 +1,13 @@
+let g:netrw_home='$XDG_STATE_HOME/vim'
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =0
+let g:netrw_dirhist_0='/etc/profile.d'
+let g:netrw_dirhist_9='/var/lib/systemd/linger'
+let g:netrw_dirhist_8='/usr/local/bin/timer'
+let g:netrw_dirhist_7='/home/ced/tmpmusic'
+let g:netrw_dirhist_6='/home/ced/.tlauncher'
+let g:netrw_dirhist_5='/home/ced/.cargo'
+let g:netrw_dirhist_4='/home/ced/.dotfiles'
+let g:netrw_dirhist_3='/home/ced/.config/keyd/config2'
+let g:netrw_dirhist_2='/home/ced/.config/keyd/config1'
+let g:netrw_dirhist_1='/home/ced/.config/keyd/config2'

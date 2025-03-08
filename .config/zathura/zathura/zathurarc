@@ -1,0 +1,14 @@
+set selection-clipboard clipboard
+
+set guioptions none
+
+set adjust_open best-fit
+
+set recolor true
+set recolor-darkcolor "#dcdccc"
+set recolor-lightcolor "#1f1f1f"
+
+set recolor-darkcolor "#E0E0E0"
+set recolor-lightcolor "#000000"
+
+set font "Iosevka SS03 12"

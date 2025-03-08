@@ -1,0 +1,13 @@
+[Unit]
+Description=Run batt service
+After=multi-user.target
+
+[Timer]
+OnCalendar=*:15:00
+OnCalendar=*:30:00
+OnCalendar=*:45:00
+OnCalendar=*:00:00
+Unit=batt.service
+
+[Install]
+WantedBy=multi-user.target

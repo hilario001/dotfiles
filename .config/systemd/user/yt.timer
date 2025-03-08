@@ -1,0 +1,8 @@
+[Unit]
+Description=Run yt service
+
+[Timer]
+OnCalendar=11:30:00
+
+[Install]
+WantedBy=multi-user.target

@@ -3,10 +3,12 @@ Xft*hinting:                    true
 Xcursor.size:                   0
 
 urxvt.font:                     xft:iosevkass14:style=regular :size=17
-urxvt.boldFont:                 xft:iosevkass14:style=semibold:size=17
+urxvt.boldFont:                 xft:iosevkass14:style=bold:size=17
 urxvt.italicFont:               xft:iosevkass14:style=italic  :size=17
 urxvt.foreground:               #edf6f9
 urxvt.background:               #040404
+!urxvt.foreground:               #040404
+!urxvt.background:               #ffffd7
 urxvt.geometry:                 400x400
 
 urxvt.jumpScroll:               true
@@ -27,4 +29,4 @@ urxvt.keysym.C-0:               font-size:reset
 urxvt.keysym.C-slash:           font-size:show
 !urxvt.font-size.step:           2
 !urxvt.cursorBlink:             true
-!urxvt.cursorColor:             #ffee32
+!urxvt.cursorColor:             #b6ccfe

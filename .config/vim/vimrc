@@ -1,18 +1,23 @@
+" TODO: learn vim script
+" TODO: compile vim with clipboard feature
+" TODO: function to group html related abbreviations/maps
+" TODO: function to toggle group of options
+
 let mapleader=" "
 let g:netrw_banner=0
-colorscheme c1
+colorscheme cs
 
 " recursively search directories and subdirectories
 set path+=**
 set incsearch
-set cindent
 "set number rnu
 set termguicolors bg=dark
-set tabstop=8 softtabstop=8 shiftwidth=8
-"set smartindent autoindent
+set tabstop=4 softtabstop=4 shiftwidth=4
+set cindent
 set expandtab
-"set makeprg=gcc\ -o\ exe\ %\ -lm
-set makeprg=gcc\ -o\ exe\ %
+"set smartindent autoindent
+"set makeprg=gcc\ -o\ main\ %\ -lm
+set makeprg=gcc\ -o\ main\ %\ -Wall\ -Werror
 set noruler noshowmode showcmd
 set scrolloff=2
 set tw=80
@@ -32,27 +37,29 @@ filetype plugin on
 
 autocmd FileType html,css setlocal tabstop=2 softtabstop=2 shiftwidth=2 
 
-nnoremap <leader><cr> :w<cr>:so ~/dotfiles/.config/vim/vimrc<cr>
-nnoremap <leader>v :e ~/dotfiles/.config/vim/vimrc<cr>
+nnoremap <leader><cr> :w<cr>:so ~/.config/vim/vimrc<cr>
+nnoremap <leader>v :e ~/.dotfiles/.config/vim/vimrc<cr>
 
-nnoremap <leader>g :vimgrep 
+nnoremap <leader>w :w<cr>
+nnoremap <leader><c-w> :wq<cr>
+nnoremap <leader>q :q!<cr>
 
-" TODO: learn how to compile vim with clipboard feature
 nnoremap <leader>Y mmggVG:w ! xclip -sel clip<cr><cr>`mzz
 vnoremap <leader>y :w ! xclip -sel clip<cr><cr>
 vnoremap <leader>p "_dP
 
-nnoremap <silent> <c-l> :bn<cr>`"
-nnoremap <silent> <c-h> :bp<cr>`"
+nnoremap <silent><c-k> :bn<cr>`"
+nnoremap <silent><c-j> :bp<cr>`"
 nnoremap <leader>d :bd<cr>
-nnoremap <leader>l :ls<cr>:b 
-nnoremap <leader>L :e <c-d>
+nnoremap <leader>j :ls<cr>:b 
+nnoremap <leader>k :e <c-d>
+nnoremap <leader>g :vimgrep   %<left><left><left>
 
 nnoremap <leader><c-p> :copen 6<cr>
-nnoremap <silent><c-k> :cnext<cr>
-nnoremap <silent><c-j> :cprev<cr>
+nnoremap <silent><c-l> :cnext<cr>
+nnoremap <silent><c-h> :cprev<cr>
 nnoremap <leader>m :w<cr>:!clear<cr>:make<cr>
-nnoremap <leader>e :w<cr>:make<cr>:!clear;./exe<cr>
+nnoremap <leader>e :w<cr>:make<cr>:!clear;./main<cr>
 
 nnoremap [<leader> mmo<esc>0D`m
 nnoremap ]<leader> mmO<esc>0D`m
@@ -69,6 +76,10 @@ nnoremap <c-u> <c-u>zz
 nnoremap <c-f> <c-f>zz
 nnoremap <c-b> <c-b>zz
 nnoremap G GGzz
+nnoremap g; g;zz
+nnoremap g, g,zz
+nnoremap p p=G
+nnoremap P P=gg<c-o>zz
 
 " TODO: make a function to group html related abbreviations/maps
 "ia html <esc>:-1r ~/dotfiles/.config/vim/.index.html<cr>/body<cr>o

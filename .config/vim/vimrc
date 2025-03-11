@@ -1,27 +1,29 @@
 " TODO: learn vim script
 " TODO: compile vim with clipboard feature
-" TODO: function to group html related abbreviations/maps
+" TODO: function to group file related abbreviations/maps i.e. for html files
 " TODO: function to toggle group of options
+" TODO: organize c file related options/marks in one augroup
 
 let mapleader=" "
 let g:netrw_banner=0
 colorscheme cs
 
-" recursively search directories and subdirectories
+" options
+" path+=**: recursively search directories and subdirectories
+" in the current directory
 set path+=**
 set incsearch
 "set number rnu
-set termguicolors bg=dark
-set tabstop=4 softtabstop=4 shiftwidth=4
-set cindent
+set termguicolors
+set bg=dark
+set tabstop=8 softtabstop=8 shiftwidth=8
 set expandtab
-"set smartindent autoindent
+set smartindent autoindent
 "set makeprg=gcc\ -o\ main\ %\ -lm
 set makeprg=gcc\ -o\ main\ %\ -Wall\ -Werror
 set noruler noshowmode showcmd
 set scrolloff=2
 set tw=80
-set laststatus=0
 "set nohlsearch
 "set guicursor=""
 "set statusline=""
@@ -38,39 +40,44 @@ filetype plugin on
 autocmd FileType html,css setlocal tabstop=2 softtabstop=2 shiftwidth=2 
 
 nnoremap <leader><cr> :w<cr>:so ~/.config/vim/vimrc<cr>
-nnoremap <leader>v :e ~/.dotfiles/.config/vim/vimrc<cr>
 
+" write/quit
 nnoremap <leader>w :w<cr>
 nnoremap <leader><c-w> :wq<cr>
 nnoremap <leader>q :q!<cr>
 
+" yank/paste
 nnoremap <leader>Y mmggVG:w ! xclip -sel clip<cr><cr>`mzz
+nnoremap <leader>p "0p
+nnoremap <leader>y Vk<cr>:w ! xclip -sel clip<cr><cr>
 vnoremap <leader>y :w ! xclip -sel clip<cr><cr>
 vnoremap <leader>p "_dP
 
+" buffers
 nnoremap <silent><c-k> :bn<cr>`"
 nnoremap <silent><c-j> :bp<cr>`"
+nnoremap <bs> <c-^>
 nnoremap <leader>d :bd<cr>
-nnoremap <leader>j :ls<cr>:b 
-nnoremap <leader>k :e <c-d>
+nnoremap <leader>b :b 
+nnoremap <leader>e :e 
 nnoremap <leader>g :vimgrep   %<left><left><left>
+"nnoremap <leader>b :ls<cr>:b 
+"nnoremap <leader>o :e <c-d>
 
+" quickfix
 nnoremap <leader><c-p> :copen 6<cr>
 nnoremap <silent><c-l> :cnext<cr>
 nnoremap <silent><c-h> :cprev<cr>
-nnoremap <leader>m :w<cr>:!clear<cr>:make<cr>
-nnoremap <leader>e :w<cr>:make<cr>:!clear;./main<cr>
 
-nnoremap [<leader> mmo<esc>0D`m
-nnoremap ]<leader> mmO<esc>0D`m
-
+" default keys remap
 nnoremap ' `
 nnoremap '' ``
 nnoremap ` '
 nnoremap `` ''
-nnoremap <silent> { :execute "keepjumps norm! " . v:count1 . "{"<cr>
-nnoremap <silent> } :execute "keepjumps norm! " . v:count1 . "}"<cr>
+nnoremap <silent>{ :execute "keepjumps norm! " . v:count1 . "{"<cr>zz
+nnoremap <silent>} :execute "keepjumps norm! " . v:count1 . "}"<cr>zz
 
+" default keys optimization
 nnoremap <c-d> <c-d>zz
 nnoremap <c-u> <c-u>zz
 nnoremap <c-f> <c-f>zz
@@ -78,8 +85,41 @@ nnoremap <c-b> <c-b>zz
 nnoremap G GGzz
 nnoremap g; g;zz
 nnoremap g, g,zz
-nnoremap p p=G
-nnoremap P P=gg<c-o>zz
+
+nnoremap [<leader> mmo<esc>0D`m
+nnoremap ]<leader> mmO<esc>0D`m
+nnoremap <leader>t :20vs .<cr>
+
+" dotfiles marks
+nnoremap 'v :e ~/.config/vim/vimrc<cr>'"
+nnoremap 'z :e ~/.config/zsh/.zshrc<cr>'"
+nnoremap 'i :e ~/.config/i3/config<cr>'"
+nnoremap 'x :e ~/.Xresources<cr>'"
+nnoremap 'c :e ~/.config/vim/colors/cs.vim<cr>'"
+
+" c programming
+nnoremap <leader>m :w<cr>:!clear<cr>:make<cr>
+nnoremap <leader>r :w<cr>:make<cr>:!clear;./main<cr>
+nnoremap 'b :e build.sh<cr>
+augroup c
+        autocmd FileType *.c setlocal set cindent
+augroup END
+
+" automatic file marks from: https://gist.github.com/romainl/3e0cb99343c72d04e9bc10f6d76ebbef
+" that also credited to circa 2011-12
+augroup file_marks
+        autocmd!
+        autocmd BufLeave *.css,*.scss   normal! mC
+        autocmd BufLeave *.html         normal! mH
+        autocmd BufLeave *.js,*.ts      normal! mJ
+        autocmd BufLeave *.md           normal! mM
+augroup END
+
+augroup skeleton_file
+        autocmd BufNewFile *.html       0r ~/.config/vim/skeletons/index.html | normal! 4jf<;
+augroup END
+
+"autocmd BufWinEnter * normal! `"zz
 
 " TODO: make a function to group html related abbreviations/maps
 "ia html <esc>:-1r ~/dotfiles/.config/vim/.index.html<cr>/body<cr>o

@@ -1,29 +1,27 @@
 " TODO: learn vim script
 " TODO: compile vim with clipboard feature
-" TODO: function to group file related abbreviations/maps i.e. for html files
 " TODO: function to toggle group of options
-" TODO: organize c file related options/marks in one augroup
 
 let mapleader=" "
 let g:netrw_banner=0
-colorscheme cs
+"colorscheme cs
+colorscheme xoria256
 
 " options
 " path+=**: recursively search directories and subdirectories
 " in the current directory
 set path+=**
 set incsearch
-"set number rnu
 set termguicolors
 set bg=dark
 set tabstop=8 softtabstop=8 shiftwidth=8
 set expandtab
 set smartindent autoindent
-"set makeprg=gcc\ -o\ main\ %\ -lm
-set makeprg=gcc\ -o\ main\ %\ -Wall\ -Werror
 set noruler noshowmode showcmd
-set scrolloff=2
+set scrolloff=3
 set tw=80
+set number rnu
+set nomore
 "set nohlsearch
 "set guicursor=""
 "set statusline=""
@@ -37,32 +35,38 @@ set tw=80
 syntax enable
 filetype plugin on
 
-autocmd FileType html,css setlocal tabstop=2 softtabstop=2 shiftwidth=2 
-
 nnoremap <leader><cr> :w<cr>:so ~/.config/vim/vimrc<cr>
 
-" write/quit
+" write, quit
 nnoremap <leader>w :w<cr>
 nnoremap <leader><c-w> :wq<cr>
 nnoremap <leader>q :q!<cr>
 
-" yank/paste
+" yank, paste
 nnoremap <leader>Y mmggVG:w ! xclip -sel clip<cr><cr>`mzz
 nnoremap <leader>p "0p
 nnoremap <leader>y Vk<cr>:w ! xclip -sel clip<cr><cr>
 vnoremap <leader>y :w ! xclip -sel clip<cr><cr>
 vnoremap <leader>p "_dP
 
+" list maps
+" :norm! G: alternative to "set nomore", caveat: the command itself is printed
+"           below the changelist
+nnoremap <leader>lc :changes<cr>:norm! G<cr>:norm! g;<s-left>
+nnoremap <leader>lb :ls<cr>:b 
+nnoremap <leader>lj :ju<cr>:
+nnoremap <leader>lu :undol<cr>:u 
+nnoremap <leader>lo :old<cr>:e #<
+
 " buffers
 nnoremap <silent><c-k> :bn<cr>`"
 nnoremap <silent><c-j> :bp<cr>`"
 nnoremap <bs> <c-^>
-nnoremap <leader>d :bd<cr>
-nnoremap <leader>b :b 
-nnoremap <leader>e :e 
+nnoremap <silent><leader>d :bd<cr>
+"nnoremap <leader>b :b 
+"nnoremap <leader>e :e 
 nnoremap <leader>g :vimgrep   %<left><left><left>
-"nnoremap <leader>b :ls<cr>:b 
-"nnoremap <leader>o :e <c-d>
+nnoremap <leader>e :e <c-d>
 
 " quickfix
 nnoremap <leader><c-p> :copen 6<cr>
@@ -74,10 +78,10 @@ nnoremap ' `
 nnoremap '' ``
 nnoremap ` '
 nnoremap `` ''
-nnoremap <silent>{ :execute "keepjumps norm! " . v:count1 . "{"<cr>zz
-nnoremap <silent>} :execute "keepjumps norm! " . v:count1 . "}"<cr>zz
 
 " default keys optimization
+nnoremap <silent> { :execute "keepjumps norm! " . v:count1 . "{"<cr>zz
+nnoremap <silent> } :execute "keepjumps norm! " . v:count1 . "}"<cr>zz
 nnoremap <c-d> <c-d>zz
 nnoremap <c-u> <c-u>zz
 nnoremap <c-f> <c-f>zz
@@ -85,6 +89,8 @@ nnoremap <c-b> <c-b>zz
 nnoremap G GGzz
 nnoremap g; g;zz
 nnoremap g, g,zz
+nnoremap <c-o> <c-o>zz
+nnoremap <c-i> <c-i>zz
 
 nnoremap [<leader> mmo<esc>0D`m
 nnoremap ]<leader> mmO<esc>0D`m
@@ -98,16 +104,28 @@ nnoremap 'x :e ~/.Xresources<cr>'"
 nnoremap 'c :e ~/.config/vim/colors/cs.vim<cr>'"
 
 " c programming
-nnoremap <leader>m :w<cr>:!clear<cr>:make<cr>
-nnoremap <leader>r :w<cr>:make<cr>:!clear;./main<cr>
-nnoremap 'b :e build.sh<cr>
 augroup c
-        autocmd FileType *.c setlocal set cindent
+        autocmd!
+        autocmd FileType c set cindent
+        \| set makeprg=gcc\ -o\ main\ %
+        \| nnoremap <leader>m :w<cr>:!clear<cr>:make<cr>
+        \| nnoremap <leader>r :w<cr>:make<cr>:!clear;./main<cr>
+        \| nnoremap 'b :e build.sh<cr>
+        "\| set makeprg=gcc\ -o\ main\ %\ -Wall\ -Werror
+        "\| set tabstop=8 softtabstop=8 shiftwidth=8 
 augroup END
 
-" automatic file marks from: https://gist.github.com/romainl/3e0cb99343c72d04e9bc10f6d76ebbef
+augroup per_file_indent
+        autocmd!
+        autocmd FileType html,css setlocal tabstop=2 softtabstop=2 shiftwidth=2 
+        autocmd FileType java setlocal tabstop=4 softtabstop=4 shiftwidth=4 
+augroup END
+
+" automatic file marks from:
+" https://gist.github.com/romainl/3e0cb99343c72d04e9bc10f6d76ebbef
 " that also credited to circa 2011-12
-augroup file_marks
+
+augroup auto_file_marks
         autocmd!
         autocmd BufLeave *.css,*.scss   normal! mC
         autocmd BufLeave *.html         normal! mH
@@ -115,14 +133,71 @@ augroup file_marks
         autocmd BufLeave *.md           normal! mM
 augroup END
 
-augroup skeleton_file
+" BUG: augroup END highlighted as spelling error color sometimes
+
+augroup skeletons
+        autocmd!
         autocmd BufNewFile *.html       0r ~/.config/vim/skeletons/index.html | normal! 4jf<;
+        " /title<cr>cit doesn't function as it normally does here hence 4jf<;
+        autocmd BufNewFile *.java       0r ~/programming/java/skeleton.java
 augroup END
 
-"autocmd BufWinEnter * normal! `"zz
+let s:nu = 1
+function! Toggle_number()
+        if s:nu == 0
+                let s:nu = 1
+                set rnu nu
+        else
+                let s:nu = 0
+                set nornu nonu
+        endif
+endfunction
 
-" TODO: make a function to group html related abbreviations/maps
-"ia html <esc>:-1r ~/dotfiles/.config/vim/.index.html<cr>/body<cr>o
+" FIXME refresh the screen after switching colorscheme
+let s:cs = 1
+function! Toggle_colorscheme()
+        if s:cs == 0
+                let s:cs = 1
+                colorscheme xoria256
+        else
+                let s:cs = 0
+                colorscheme cs
+        endif
+endfunction
+
+" config maps
+nnoremap <silent><leader>cn     :call Toggle_number()<cr>
+nnoremap <silent><leader>cs     :call Toggle_colorscheme()<cr>
+
+" A modified version from:
+" https://gist.github.com/romainl/047aca21e338df7ccf771f96858edb86
+function! CCR()
+        let cmdline = getcmdline()
+        set laststatus=1
+        if cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
+                return "\<CR>:"
+        else
+                return "\<CR>"
+        endif
+endfunction
+
+cnoremap <expr> <cr> CCR()
+cnoremap <c-a> <Home>
+cnoremap <c-f> <Right>
+cnoremap <c-b> <Left>
+nnoremap : :set laststatus=2<cr>:
+nnoremap <leader>* :set laststatus=2<cr>:g/<c-r><c-w>/#<cr>
+
+function! Experiment()
+        let cmdline = getcmdline()
+        if cmdline =~ 'foo$'
+                return "echomsg \"bar\"\<cr>"
+        endif
+        " TODO learn how to clear the current command line
+        "      then execute a command
+endfunction
+
+"autocmd BufWinEnter * normal! `"zz
 
 " REMINDERS:
 " q: - enter command line editing in normal mode
@@ -146,7 +221,6 @@ augroup END
 "
 " gq - wrap line
 " gggqG - wrap all lines in the file longer than set textwidth into multiple lines
-" vim script functions
 "let s:hidden_all = 0
 "function! ToggleHiddenAll()
 "    if s:hidden_all  == 0

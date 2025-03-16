@@ -1,30 +1,29 @@
-" TODO: learn vim script
-" TODO: compile vim with clipboard feature
-" TODO: function to toggle group of options
+" TODO learn vim script
+" TODO compile vim with clipboard feature
+" TODO function to toggle group of options
 
 let mapleader=" "
 let g:netrw_banner=0
-"colorscheme cs
 colorscheme xoria256
+syntax enable
+filetype plugin on
 
-" options
+" Options
 " path+=**: recursively search directories and subdirectories
 " in the current directory
 set path+=**
+set nostartofline
+set hidden
+set shortmess+=I
 set incsearch
 set termguicolors
-set bg=dark
+set background=dark
 set tabstop=8 softtabstop=8 shiftwidth=8
 set expandtab
 set smartindent autoindent
 set noruler noshowmode showcmd
 set scrolloff=3
 set tw=80
-set number rnu
-set nomore
-"set nohlsearch
-"set guicursor=""
-"set statusline=""
 "set foldmethod=indent
 "set foldlevel=1
 "set foldclose=all
@@ -32,85 +31,76 @@ set nomore
 "set undodir=~/.cache/vim/undo
 "set undolevels=1000 "set undoreload=3000
 
-syntax enable
-filetype plugin on
-
 nnoremap <leader><cr> :w<cr>:so ~/.config/vim/vimrc<cr>
+nnoremap <space> <nop>
+nnoremap Q <nop>
 
-" write, quit
-nnoremap <leader>w :w<cr>
-nnoremap <leader><c-w> :wq<cr>
-nnoremap <leader>q :q!<cr>
-
-" yank, paste
+" Yank, paste
 nnoremap <leader>Y mmggVG:w ! xclip -sel clip<cr><cr>`mzz
 nnoremap <leader>p "0p
 nnoremap <leader>y Vk<cr>:w ! xclip -sel clip<cr><cr>
 vnoremap <leader>y :w ! xclip -sel clip<cr><cr>
 vnoremap <leader>p "_dP
 
-" list maps
-" :norm! G: alternative to "set nomore", caveat: the command itself is printed
-"           below the changelist
-nnoremap <leader>lc :changes<cr>:norm! G<cr>:norm! g;<s-left>
-nnoremap <leader>lb :ls<cr>:b 
-nnoremap <leader>lj :ju<cr>:
-nnoremap <leader>lu :undol<cr>:u 
-nnoremap <leader>lo :old<cr>:e #<
-
-" buffers
-nnoremap <silent><c-k> :bn<cr>`"
-nnoremap <silent><c-j> :bp<cr>`"
-nnoremap <bs> <c-^>
-nnoremap <silent><leader>d :bd<cr>
-"nnoremap <leader>b :b 
-"nnoremap <leader>e :e 
-nnoremap <leader>g :vimgrep   %<left><left><left>
-nnoremap <leader>e :e <c-d>
-
-" quickfix
+" Quickfix
 nnoremap <leader><c-p> :copen 6<cr>
-nnoremap <silent><c-l> :cnext<cr>
-nnoremap <silent><c-h> :cprev<cr>
+nnoremap <silent><c-k> :cnext<cr>
+nnoremap <silent><c-j> :cprev<cr>
 
-" default keys remap
+" Search and replace
+" sw: search occurences of a word
+nnoremap <leader>g :g//#<left><left>
+" c*: change all occurences of word under the cursor in the file
+nnoremap c* :%s/\<<c-r><c-w>\>//g<left><left>
+" search word under cursor
+nnoremap <leader>* :set laststatus=2<cr>:g/\<<c-r><c-w>\>/#<cr>
+
+" File navigation
+nnoremap <leader>fs :find 
+nnoremap <leader>fl :vertical split **/
+nnoremap <leader>fd :20vs <c-r>=expand('%:.:h') .. '/'<cr><cr>
+nnoremap <leader>e :edit <c-d>
+
+" Buffer navigation
+nnoremap <bs> <c-^>
+nnoremap <silent><leader>d :bdel<cr>
+nnoremap <leader>lf :ls<cr>:buffer 
+
+" Default keybinds remaps
 nnoremap ' `
 nnoremap '' ``
 nnoremap ` '
 nnoremap `` ''
 
-" default keys optimization
+" Default keybinds optimization
 nnoremap <silent> { :execute "keepjumps norm! " . v:count1 . "{"<cr>zz
 nnoremap <silent> } :execute "keepjumps norm! " . v:count1 . "}"<cr>zz
-nnoremap <c-d> <c-d>zz
-nnoremap <c-u> <c-u>zz
-nnoremap <c-f> <c-f>zz
-nnoremap <c-b> <c-b>zz
-nnoremap G GGzz
 nnoremap g; g;zz
 nnoremap g, g,zz
 nnoremap <c-o> <c-o>zz
 nnoremap <c-i> <c-i>zz
+nnoremap n nzz
+nnoremap N Nzz
 
+" Random keybinds
 nnoremap [<leader> mmo<esc>0D`m
 nnoremap ]<leader> mmO<esc>0D`m
-nnoremap <leader>t :20vs .<cr>
 
-" dotfiles marks
-nnoremap 'v :e ~/.config/vim/vimrc<cr>'"
-nnoremap 'z :e ~/.config/zsh/.zshrc<cr>'"
-nnoremap 'i :e ~/.config/i3/config<cr>'"
-nnoremap 'x :e ~/.Xresources<cr>'"
-nnoremap 'c :e ~/.config/vim/colors/cs.vim<cr>'"
+" Dotfiles marks
+nnoremap 'V :edit ~/.config/vim/vimrc<cr>
+nnoremap 'Z :edit ~/.config/zsh/.zshrc<cr>
+nnoremap 'I :edit ~/.config/i3/config<cr>
+nnoremap 'X :edit ~/.Xresources<cr>
+nnoremap 'C :edit ~/.config/vim/colors/cs.vim<cr>
 
-" c programming
-augroup c
+" C programming
+augroup C
         autocmd!
         autocmd FileType c set cindent
         \| set makeprg=gcc\ -o\ main\ %
         \| nnoremap <leader>m :w<cr>:!clear<cr>:make<cr>
-        \| nnoremap <leader>r :w<cr>:make<cr>:!clear;./main<cr>
-        \| nnoremap 'b :e build.sh<cr>
+        \| nnoremap <leader>x :w<cr>:make<cr>:!clear;./main<cr>
+        \| nnoremap 'B :e build.sh<cr>
         "\| set makeprg=gcc\ -o\ main\ %\ -Wall\ -Werror
         "\| set tabstop=8 softtabstop=8 shiftwidth=8 
 augroup END
@@ -125,25 +115,25 @@ augroup END
 " https://gist.github.com/romainl/3e0cb99343c72d04e9bc10f6d76ebbef
 " that also credited to circa 2011-12
 
-augroup auto_file_marks
+augroup AutoFileMarks
         autocmd!
-        autocmd BufLeave *.css,*.scss   normal! mC
-        autocmd BufLeave *.html         normal! mH
-        autocmd BufLeave *.js,*.ts      normal! mJ
-        autocmd BufLeave *.md           normal! mM
+        autocmd BufLeave *.css,*.scss   normal! mc
+        autocmd BufLeave *.html         normal! mh
+        autocmd BufLeave *.js,*.ts      normal! mj
 augroup END
 
-" BUG: augroup END highlighted as spelling error color sometimes
+" BUG: Augroup END highlighted as spelling error color and fixed when display is
+" redrawn in any way
 
-augroup skeletons
+augroup Skeletons
         autocmd!
         autocmd BufNewFile *.html       0r ~/.config/vim/skeletons/index.html | normal! 4jf<;
         " /title<cr>cit doesn't function as it normally does here hence 4jf<;
         autocmd BufNewFile *.java       0r ~/programming/java/skeleton.java
 augroup END
 
-let s:nu = 1
-function! Toggle_number()
+let s:nu = 0
+function! ToggleNumber()
         if s:nu == 0
                 let s:nu = 1
                 set rnu nu
@@ -153,56 +143,52 @@ function! Toggle_number()
         endif
 endfunction
 
-" FIXME refresh the screen after switching colorscheme
-let s:cs = 1
-function! Toggle_colorscheme()
-        if s:cs == 0
-                let s:cs = 1
+" FIXME Refresh the screen after switching colorscheme
+let s:cs = 0
+function! ToggleColorscheme()
+        if s:cs == 1
+                let s:cs = 0
                 colorscheme xoria256
         else
-                let s:cs = 0
+                let s:cs = 1
                 colorscheme cs
         endif
 endfunction
 
-" config maps
-nnoremap <silent><leader>cn     :call Toggle_number()<cr>
-nnoremap <silent><leader>cs     :call Toggle_colorscheme()<cr>
+" Config maps
+nnoremap <silent><leader>cn     :call ToggleNumber()<cr>
+nnoremap <silent><leader>cs     :call ToggleColorscheme()<cr>
 
 " A modified version from:
 " https://gist.github.com/romainl/047aca21e338df7ccf771f96858edb86
-function! CCR()
+function! CR()
         let cmdline = getcmdline()
         set laststatus=1
-        if cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
+        if cmdline =~ '\v\C/(#|nu)$'
                 return "\<CR>:"
         else
                 return "\<CR>"
         endif
 endfunction
 
-cnoremap <expr> <cr> CCR()
+" List-commands remaps
+nnoremap <leader>lc :set nomore<cr>:changes<cr>:norm! G<cr>:norm! g;<s-left>
+nnoremap <leader>lj :set nomore<cr>:ju<cr>:norm! <c-o><s-left>
+nnoremap <leader>lu :undol<cr>:u 
+nnoremap <leader>lo :set more<cr>:old<cr>e #<
+
+cnoremap <expr> <cr> CR()
 cnoremap <c-a> <Home>
 cnoremap <c-f> <Right>
 cnoremap <c-b> <Left>
 nnoremap : :set laststatus=2<cr>:
-nnoremap <leader>* :set laststatus=2<cr>:g/<c-r><c-w>/#<cr>
 
-function! Experiment()
-        let cmdline = getcmdline()
-        if cmdline =~ 'foo$'
-                return "echomsg \"bar\"\<cr>"
-        endif
-        " TODO learn how to clear the current command line
-        "      then execute a command
-endfunction
-
-"autocmd BufWinEnter * normal! `"zz
+autocmd BufReadPost * normal! `"zz
 
 " REMINDERS:
 " q: - enter command line editing in normal mode
 " gd - go to declaration of local variable under the cursor
-" gi
+" gi - go to last inserted text and enter insert mode
 " gg=G fix indentation of whole file
 "
 " use w, W, b, B, e, E, ge, gE

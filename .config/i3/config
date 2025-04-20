@@ -1,57 +1,22 @@
-# use alt as leader key
 set $mod Mod1
+exec --no-startup-id i3-msg "workspace 9; exec --no-startup-id firefox; workspace 10; exec --no-startup-id alacritty"
 
-# use vi keys
-set $left h
-set $down j
-set $up k
-set $right l
+assign [class="^firefox$"] number 9
 
-# remove window border and font of any window
 for_window [class="^.*"] border pixel 0
-font pango:monospace 0
+workspace_auto_back_and_forth yes
 
-# startup
-exec --no-startup-id "dunst &"
-exec --no-startup-id "systemctl --user start habit.timer" 
-exec --no-startup-id i3-msg "workspace 9; exec --no-startup-id firefox";
+bindsym Mod4+r exec --no-startup-id \
+ffmpeg -f x11grab -draw_mouse 0 -video_size 1600x900 -i $DISPLAY -vframes 1 ~/tmp/"$(date)".png
 
-# focus the parent container
-bindsym $mod+p focus parent
-# focus the child container
-bindsym $mod+c focus child
+bindsym Mod4+s exec --no-startup-id \
+dunstify "$(date '+%I:%M') $(cat /sys/class/power_supply/BAT0/capacity)"
 
-# exit i3
-bindsym $mod+Shift+e exec i3-msg exit
-bindsym $mod+n split toggle
+bindsym Mod4+p exec systemctl suspend
 
-# screenshot and screenrecord
-bindsym $mod+Control+s exec ~/.local/bin/screenshot.sh
-#bindsym $mod+Control+r exec ~/.local/bin/record.sh
-
-# app binds
-bindsym $mod+Control+f exec --no-startup-id "firefox &"
-bindsym $mod+Control+a exec --no-startup-id "firefox -P academic"
-bindsym $mod+Shift+f exec --no-startup-id "devour firefox"
-bindsym $mod+Return exec urxvt
-bindsym $mod+a exec --no-startup-id dmenu_run -fn "Iosevka SS14-11.5" -sb "#f3e430" -sf "#000000"
-bindsym $mod+Shift+m exec "java -jar ~/aur/minecraft/LegacyLauncher_legacy.jar"
-
-# pdf
-bindsym $mod+Control+j exec "zathura ~/languages/c/resources/kr.pdf"
-#bindsym $mod+Control+j exec "zathura ~/cs/pdf/code_the_hidden_language_of_computer_hardware_and_software.pdf"
-
-# close app
-bindsym $mod+d kill
-
-# play music
-bindsym $mod+Control+m exec "[[ ! $(pgrep -x mpv > /dev/null; echo $?) = 0 ]] && mpv --no-video ~/Music/40hz.m4a || pkill mpv"
-
-# check time and battery capacity
-bindsym $mod+Control+k exec ". ~/.local/bin/checktimebatt.sh"
-
-# layouts binds
-#bindsym $mod+Control+j exec --no-startup-id "~/.config/i3/layouts/sicp"
+bindsym Mod4+f exec firefox
+bindsym $mod+Control+a exec "firefox -P academic"
+bindsym $mod+t split toggle
 
 # i3 config file (v4)
 #
@@ -64,8 +29,9 @@ bindsym $mod+Control+k exec ". ~/.local/bin/checktimebatt.sh"
 # layout, use the i3-config-wizard
 #
 
+# Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-#font pango:monospace 8
+font pango:robotomono 0
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -80,25 +46,25 @@ exec --no-startup-id dex --autostart --environment i3
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+#exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
+#exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
-#set $up k
-#set $down j
-#set $left h
-#set $right l
+set $left h
+set $down j
+set $up k
+set $right l
 
 # use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -108,12 +74,13 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 
 # start a terminal
-#bindsym $mod+Return exec xterm
+bindsym $mod+Return exec i3-sensible-terminal
 
-#bindsym $mod+Shift+q kill
+# kill focused window
+bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-#bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym $mod+d exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
 # bindsym $mod+d exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -126,23 +93,35 @@ bindsym $mod+$down focus down
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
 
+# alternatively, you can use the cursor keys:
+#bindsym $mod+Left focus left
+#bindsym $mod+Down focus down
+#bindsym $mod+Up focus up
+#bindsym $mod+Right focus right
+
 # move focused window
 bindsym $mod+Shift+$left move left
 bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
 
+# alternatively, you can use the cursor keys:
+#bindsym $mod+Shift+Left move left
+#bindsym $mod+Shift+Down move down
+#bindsym $mod+Shift+Up move up
+#bindsym $mod+Shift+Right move right
+
 # split in horizontal orientation
-#bindsym $mod+x split h
+#bindsym $mod+h split h
 
 # split in vertical orientation
-#bindsym $mod+y split v
+#bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
+bindsym $mod+Control+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
@@ -152,6 +131,11 @@ bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
 
 # move the currently focused window to the scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -202,8 +186,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-#bindsym $mod+Shift+e exec i3-msg exit
-
+bindsym $mod+Shift+e exec i3-msg exit
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -214,16 +197,15 @@ mode "resize" {
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
         bindsym $left       resize shrink width 10 px or 10 ppt
-        bindsym $left       resize shrink width 10 px or 10 ppt
         bindsym $down       resize grow height 10 px or 10 ppt
         bindsym $up         resize shrink height 10 px or 10 ppt
         bindsym $right      resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left        resize shrink width 10 px or 10 ppt
-        bindsym Down        resize grow height 10 px or 10 ppt
-        bindsym Up          resize shrink height 10 px or 10 ppt
-        bindsym Right       resize grow width 10 px or 10 ppt
+        #bindsym Left        resize shrink width 10 px or 10 ppt
+        #bindsym Down        resize grow height 10 px or 10 ppt
+        #bindsym Up          resize shrink height 10 px or 10 ppt
+        #bindsym Right       resize grow width 10 px or 10 ppt
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
@@ -235,9 +217,9 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-# bar {
-#         status_command i3status
-# }
+#bar {
+#        status_command i3status
+#}
 
 #######################################################################
 # automatically start i3-config-wizard to offer the user to create a
@@ -249,4 +231,4 @@ bindsym $mod+r mode "resize"
 #
 # Please remove the following exec line:
 #######################################################################
-# exec i3-config-wizard
+#exec i3-config-wizard

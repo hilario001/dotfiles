@@ -1,32 +1,3 @@
 Xft*antialias:                  true
 Xft*hinting:                    true
 Xcursor.size:                   0
-
-urxvt.font:                     xft:iosevkass14:style=regular :size=17
-urxvt.boldFont:                 xft:iosevkass14:style=bold:size=17
-urxvt.italicFont:               xft:iosevkass14:style=italic  :size=17
-urxvt.foreground:               #edf6f9
-urxvt.background:               #040404
-!urxvt.foreground:               #040404
-!urxvt.background:               #ffffd7
-urxvt.geometry:                 400x400
-
-urxvt.jumpScroll:               true
-urxvt.mouseWheelScrollPage:     true
-urxvt.scrollBar:                false
-urxvt.fading:                   50
-urxvt.internalBorder:           40
-urxvt.highlightColor:           #262626
-urxvt.highlightTextColor:       #edf6f9
-
-urxvt.perl-ext-common:          default,clipboard,url-select,keyboard-select,font-size
-urxvt.url-select.launcher:      /usr/bin/xdg-open
-urxvt.url-select.underline:     true
-urxvt.keysym.M-u:               url-select:select_next
-urxvt.keysym.C-equal:           font-size:increase
-urxvt.keysym.C-minus:           font-size:decrease
-urxvt.keysym.C-0:               font-size:reset
-urxvt.keysym.C-slash:           font-size:show
-!urxvt.font-size.step:           2
-!urxvt.cursorBlink:             true
-!urxvt.cursorColor:             #b6ccfe

@@ -10,4 +10,6 @@ xrandr --output eDP-1 --off
 xrandr --output HDMI-1 --primary
 xrdb -merge ~/.Xresources
 xset -b
+dunst &
+unclutter --start-hidden --timeout 0.1 --ignore-buttons 1,2,3 --ignore-scrolling &
 exec i3

@@ -1,6 +1,0 @@
-[Unit]
-Description=Reminder daemon
-
-[Service]
-ExecStart=%h/.local/bin/habit.sh
-Environment=DISPLAY=:0

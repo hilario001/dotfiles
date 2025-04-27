@@ -20,6 +20,7 @@ set smartindent autoindent
 set noruler noshowmode showcmd
 set scrolloff=3
 set tw=80
+"set rnu nu
 "set foldmethod=indent
 "set foldlevel=1
 "set foldclose=all
@@ -91,7 +92,7 @@ autocmd BufRead vimrc setlocal foldmethod=marker
 augroup C
         autocmd!
         autocmd FileType c setlocal cindent tabstop=8 softtabstop=8 shiftwidth=8
-        \| set makeprg=gcc\ -o\ main\ %\ -Wall\ -Werror
+        \| set makeprg=gcc\ -o\ main\ %\ -Wall\ -Werror\ -lm
         \| nnoremap <buffer><leader>m :w<cr>:!clear<cr>:make<cr>
         \| nnoremap <buffer><leader>x :w<cr>:make<cr>:!clear;./main<cr>
         \| nnoremap 'b :e build.sh<cr>
@@ -118,8 +119,8 @@ augroup END
 
 augroup skeletons
         autocmd!
-        autocmd BufNewFile *.html       0r ~/.config/vim/skeletons/index.html | normal! 4jf<;
-        autocmd BufNewFile *.php        0r ~/.config/vim/skeletons/index.php | normal! j
+        autocmd BufNewFile *.html       0r ~/.config/vim/skeletons/index.html | normal! 4jf<;:bd #<cr>
+        "autocmd BufNewFile *.php        0r ~/.config/vim/skeletons/index.php | normal! j
         "autocmd BufNewFile *.java       0r ~/programming/java/skeleton.java
 augroup END
 
@@ -183,12 +184,20 @@ function! NetrwMapping()
         nmap <buffer><silent> <leader><cr> <cr>:Lex<cr>
         nmap <buffer> J jp
         nmap <buffer> K kp
+        nmap <buffer> _ <cr>
 endfunction
 
+autocmd Filetype php inoremap <buffer> > ><esc>bi<<esc>yf>f>pF<a/<esc>cit
 autocmd Filetype html inoremap <buffer> > ><esc>bi<<esc>yf>f>pF<a/<esc>cit
 autocmd Filetype netrw call NetrwMapping()
 autocmd BufReadPost * normal! `"
+autocmd Filetype css inoremap <buffer> { {<cr><cr>}<esc>ki<c-t>
 
+" Git mappings
+nnoremap <leader>ga :!git add %; git commit %<cr>
+
+"nnoremap <leader>gf :e <cfile><cr>
+nnoremap <silent><leader>fc :!touch <c-r><c-p><cr><cr>
 " REMINDERS:
 " gd - go to local declaration of variable under the cursor
 " gD - go to global declaration of variable under the cursor

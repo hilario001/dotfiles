@@ -13,7 +13,7 @@ bold_italic.family = "IosevkaSS14"
 #bold_italic.family = "Roboto Mono"
 
 [colors]
-cursor = { text = "#000000", cursor = "#ffffff" }
+#cursor = { text = "#000000", cursor = "#ffffff" }
 #cursor = { text = "#000000", cursor = "#ffee32" }
 vi_mode_cursor = { text = "#000000", cursor = "#4FFF5E" }
 #primary.background = "#040404"

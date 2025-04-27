@@ -16,7 +16,8 @@ setopt hist_ignore_all_dups
 setopt share_history
 setopt autocd
 
-export PS1=""
+#export PS1=""
+export PS1="%B%~%b "
 #export RPROMPT="%F{#ffee32}%@%f"
 export HISTFILE=~/.cache/zsh/history
 
@@ -49,25 +50,41 @@ vm()
         vim -c "h $1|only"
 }
 
-todo()
-{
-        printf '\x1Bc'
-        cat ~/todo.txt
-        printf "\n"
-        zle redisplay
-}
-
 clear-screen-and-scrollback()
 {
         printf '\x1Bc'
         zle clear-screen
 }
 
+pdf()
+{
+        zathura ~/cs/pdf/*$1*.pdf &;
+}
+
+timer()
+{
+        clear;
+        printf "$1\n";
+        while true;
+        do
+                printf "%s\r" $(date +%l:%M:%S);
+        done
+}
+
+cd()
+{
+    if [ $# -eq 0 ];
+    then
+        builtin cd;
+        return;
+    fi
+
+    builtin cd $1 && ls -lX;
+}
+
 zle -N exit_zsh
 zle -N clear-screen-and-scrollback
-zle -N todo
 
-bindkey '^t' todo
 bindkey '^l' clear-screen-and-scrollback
 bindkey '^d' exit_zsh
 bindkey '^r' history-incremental-search-backward
@@ -86,15 +103,8 @@ bindkey -M menuselect 'l' vi-forward-char
 
 alias csi="chicken-csi -q"
 alias csc="chicken-csc"
-
-alias v="vim ~/.config/vim/vimrc" 
-alias z="vim ~/.config/zsh/.zshrc"
 alias zr="source ~/.config/zsh/.zshrc"
-alias i3="vim ~/.config/i3/config"
-
-alias pdfsicp="zathura ~/cs/sicp/pdf/sicp.pdf &"
-alias pdfc="zathura ~/cs/pdf/code_the_hidden_language_of_computer_hardware_and_software.pdf"
-
 alias x="startx"
-alias p="poweroff"
+alias po="poweroff"
 alias sp="systemctl suspend"
+alias ls="ls -lX"
